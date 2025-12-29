@@ -3,6 +3,11 @@
 {% block title %}Course List{% endblock %}
 
 {% block content %}
+    <section class="hero is-small is-info">
+        <div class="hero-body">
+            <p class="title">Teacher {{ user.get_username }}</p>
+        </div>
+    </section>
     <div class="section">
         <div class="columns">
             <div class="column is-full">
