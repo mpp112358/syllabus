@@ -75,6 +75,9 @@ class Course(models.Model):
     points = models.ManyToManyField(Point, through="CoursePoint")
     current_position = models.PositiveIntegerField(db_default=0)  # type: ignore[call-arg]
 
+    class Meta:
+        unique_together = ["name", "user"]
+
     def __str__(self):
         return str(self.name)
 
@@ -89,7 +92,7 @@ class Unit(models.Model):
         unique_together = ["course", "position"]
 
     def __str__(self):
-        return f"({self.course}) Unit {self.position}: {self.title}"
+        return f"({self.course.user.username}:{self.course}) Unit {self.position}: {self.title}"
 
 
 class CoursePoint(models.Model):
@@ -99,7 +102,7 @@ class CoursePoint(models.Model):
     state = models.ForeignKey(
         DeliveryState, on_delete=models.PROTECT, related_name="course_points", null=True
     )
-    unit = models.ForeignKey(Unit, null=True, blank=True, on_delete=models.SET_NULL)
+    unit = models.ForeignKey(Unit, null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["position"]

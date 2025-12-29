@@ -9,6 +9,7 @@ from .models import (
     SyllabusPoint,
     Course,
     CoursePoint,
+    Unit,
 )
 
 # Register your models here.
@@ -21,3 +22,4 @@ admin.site.register(Syllabus)
 admin.site.register(SyllabusPoint)
 admin.site.register(Course)
 admin.site.register(CoursePoint)
+admin.site.register(Unit)

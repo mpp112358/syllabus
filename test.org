@@ -2,7 +2,42 @@
 #+TODO: PENDING(p) | DELIVERED(d)
 #+TODO: UNASSIGNED(u) ASSIGNED(a) | REVIEWED(r)
 
+* Tema 4: Números Complejos :complejos:
+:PROPERTIES:
+:POSITION: 4
+:END:
+** PENDING Unidad imaginaria
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Número imaginario
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Número complejo
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Parte real de un número complejo
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Parte imaginaria de un número complejo
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Módulo de un número complejo
+:PROPERTIES:
+:TYPE:     theory
+:END:
+** PENDING Conjunto de los números complejos
+:PROPERTIES:
+:TYPE:     theory
+:END:
 * Tema 5: Geometría Analítica :geometría:
+:PROPERTIES:
+:POSITION: 5
+:END:
 ** PENDING Definición algebraica de vector libre :vectores:
 :PROPERTIES:
 :TYPE:     theory
@@ -120,6 +155,9 @@
 :END:
 
 * Tema 6: Funciones :análisis:
+:PROPERTIES:
+:POSITION: 6
+:END:
 ** PENDING Concepto de función
 :PROPERTIES:
 :TYPE:     theory

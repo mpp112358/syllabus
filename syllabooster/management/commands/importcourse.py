@@ -5,9 +5,11 @@
 # Command arguments:
 # - course: the name of the course to import;
 # - inputfilename: the name of the input file;
-# - -f,--format: the format of the input file (currently, only org and MD are supported).
+# - -t,--type: the format of the input file (currently, only org and MD are supported).
+# - -f,--force: don't ask for confirmation before overwriting an existing course
 #
-# If a course with the given name already exists, it is replaced by the new one.
+# If the course exists, it will be overwritten, but the user will be asked for confirmation
+# unless -f,--format is given.
 #
 # Org file conventions.
 #
@@ -55,7 +57,14 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("course", help="Course name")
         parser.add_argument("inputfilename", help="Input file name")
-        parser.add_argument("-f", "--format", default="org", help="Input format")
+        parser.add_argument("-u", "--user", default="manuel")
+        parser.add_argument("-t", "--type", default="org", help="Input file type")
+        parser.add_argument(
+            "-f",
+            "--force",
+            action="store_true",
+            help="Replace course without confirmation",
+        )
 
     def parse_org(self, input_string):
         root = orgparse.loads(input_string)
@@ -119,19 +128,39 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # If there's already a course with the given name, it will be deleted.
         # Then a new one is created.
+
+        user = options["user"]
+        self.user = None
+        try:
+            self.user = User.objects.get(username=user)
+        except User.DoesNotExist:
+            raise CommandError('User "%s" does not exist' % user)
         course_name = options["course"]
-        course = Course.objects.get(name=course_name)
-        if course:
-            course.delete()
-        self.course = Course.objects.create(name=course_name)
+        self.course, created = Course.objects.get_or_create(
+            name=course_name, user=self.user
+        )
+        if Course.objects.filter(name=course_name, user=self.user).exists():
+            if not options["force"]:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f"Course {course_name} for user {user} already exists and will be replaced."
+                    )
+                )
+                confirm = input("Are you sure you want to proceed? [y/N]: ")
+                if confirm.lower() not in ["y", "yes"]:
+                    self.stdout.write(self.style.ERROR("Operation cancelled."))
+                    return
+            Course.objects.filter(name=course_name, user=self.user).delete()
+
+        self.course = Course.objects.create(name=course_name, user=self.user)
+
         inputfilename = options["inputfilename"]
         inputfilepath = Path(inputfilename)
         if not inputfilepath.is_file():
             raise CommandError('File "%s" not found' % inputfilename)
         with open(inputfilepath, "r") as mdfile:
             input_string = mdfile.read()
-
-        input_format = options["format"]
+        input_format = options["type"]
         if input_format == "md":
             self.parse_md(input_string)
         elif input_format == "org":
