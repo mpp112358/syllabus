@@ -11,3 +11,7 @@ wheels/
 
 # environment
 .env
+
+# Static and media
+/static/
+/media/
