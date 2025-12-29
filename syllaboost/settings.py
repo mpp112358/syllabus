@@ -45,6 +45,8 @@ if not DEBUG:  # Production
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True  # add to Chrome/Firefox preload lists
 
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 else:  # Development
     SECURE_SSL_REDIRECT = False
 
