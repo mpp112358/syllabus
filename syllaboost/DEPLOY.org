@@ -1,0 +1,18 @@
+#+title: Deploy
+
+cd /var/www/syllabus
+
+# Pull changes (as your admin user or use deployment keys)
+sudo -u syllabus git pull
+
+# Update dependencies
+sudo -u syllabus uv sync
+
+# Run migrations
+sudo -u syllabus uv run python manage.py migrate
+
+# Collect static files
+sudo -u syllabus uv run python manage.py collectstatic --noinput
+
+# Restart gunicorn
+sudo systemctl restart syllabus-gunicorn
