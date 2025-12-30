@@ -3,35 +3,35 @@
 {% block title %}Course List{% endblock %}
 
 {% block content %}
-    <section class="hero is-small is-info">
-        <div class="hero-body">
-            <p class="title">Teacher {{ user.get_username }}</p>
-        </div>
-    </section>
-    <div class="section">
-        <div class="columns">
-            <div class="column is-full">
-                {% for course in course_list %}
-                    <div class="field has-addons">
-                        <p class="control" style="width: 100%;">
-                            <a class="button is-link is-fullwidth"
+    <header class="fill">
+        <nav>
+            <button class="circle transparent"><i>menu</i></button>
+            <h6 class="max center-align">{{ user.get_username }}</h6>
+            <button class="circle transparent"><i>account_circle</i></button>
+        </nav>
+    </header>
+    <article class="fill">
+        <div class="list">
+            {% for course in course_list %}
+                <li>
+                    <div class="max">
+                        <nav class="group split">
+                            <a class="max button left-round secondary"
                                href={% url 'syllabooster:currentunit' course.id %}>
                                 {{ course.name }}
                             </a>
-                        </p>
-                        <p class="control">
-                            <a class="button is-link is-outlined"
+                            <a class="button right-round square secondary"
                                href={% url 'syllabooster:unitlist' course.id %}>
-                                <span class="icon"><i class="fa-solid fa-list"></i></span>
+                                <i>menu</i>
                             </a>
-                        </p>
+                        </nav>
                     </div>
-                {% empty %}
-                    <a class="button is-link is-fullwidth is-outlined">
-                        You don't have any courses...
-                    </a>
-                {% endfor %}
-            </div>
+                </li>
+            {% empty %}
+                <a class="button max error">
+                    You don't have any courses...
+                </a>
+            {% endfor %}
         </div>
-    </div>
+    </article>
 {% endblock %}
