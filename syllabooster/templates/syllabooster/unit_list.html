@@ -3,30 +3,29 @@
 {% block title %}Unit List{% endblock %}
 
 {% block content %}
-        <div class="container is-sticky" style="margin: 10px 0px 5px 0px;">
-            <div class="field has-addons" style="width: 100%;">
-                <p class="control">
-                    <a class="button is-narrow is-large is-link" href="{% url 'syllabooster:courselist' %}">
-                        <span class="icon"><i class="fa-solid fa-home"></i></span>
+    <header class="fill">
+        <nav>
+            <a class="button circle transparent"
+               href="{% url 'syllabooster:courselist' %}">
+                <i>home</i>
+            </a>
+            <a class="max center-align button square transparent" href="{% url 'syllabooster:currentunit' course.id %}">
+                <h6 class="max center-align">{{ course.name }}</h6>
+            </a>
+            <button class="circle transparent"><i>account_circle</i></button>
+        </nav>
+    </header>
+    <nav class="max">
+        <div class="list max no-space">
+            {% for unit in unit_list %}
+                <li>
+                    <a href={% url 'syllabooster:unit' course.id unit.id %}>
+                        <button class="max responsive {% if unit.position < currentunit.position %} secondary {% elif unit.position > currentunit.position %} border {% else %} error {% endif %} left-align">
+                            {{ unit.title }}
+                        </button>
                     </a>
-                </p>
-                <p class="control" style="width: 100%;">
-                    <a class="button is-fullwidth is-large is-link is-outlined"
-                       href="{% url 'syllabooster:currentunit' course.id %}">
-                        {{ course.name }}
-                    </a>
-                </p>
-            </div>
+                </li>
+            {% endfor %}
         </div>
-        <div class="columns">
-            <div class="column is-full">
-                {% for unit in unit_list %}
-                    <a class="button {% if unit.position < currentunit.position %} is-success {% elif unit.position > currentunit.position %} is-danger {% else %} is-warning {% endif %} is-fullwidth is-justify-content-flex-start"
-                       href={% url 'syllabooster:unit' course.id unit.id %}
-                       style="margin:3px;">
-                        {{ unit.title }}
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
+    </nav>
 {% endblock %}
