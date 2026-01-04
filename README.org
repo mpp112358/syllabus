@@ -1,5 +1,7 @@
 #+title: Readme
 
+[[https://github.com/USERNAME/REPO/actions][https://github.com/mpp112358/syllaboost/actions/workflows/deploy.yml/badge.svg]]
+
 * Overview
 
 Adhara is an app to create a manage class plans.
